@@ -1,5 +1,8 @@
 package com.geekstyle.data.controller.ip;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,7 +27,11 @@ public class IPController {
 	@RequestMapping(method=RequestMethod.GET)
 	public ResponseEntity<?> getIP(HttpServletRequest request) {
 		String ip = IPUtil.getClientIP(request);
-		return ResponseEntity.status(HttpStatus.OK).body(ip + "\n");
+		String countryCode = ipService.getCountryCode(IPUtil.ipToLong(ip));
+		Map<String,Object> result = new HashMap<String,Object>();
+		result.put("ip", ip);
+		result.put("country", countryCode);
+		return ResponseEntity.status(HttpStatus.OK).body(result);
 	}
 	
 	@GetMapping("/{ip}")

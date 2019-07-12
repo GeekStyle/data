@@ -23,7 +23,7 @@ public interface PortDao {
 	public void insert(Port port);
 	
 	@Select({
-        "select id,name,lon,lat,country,country_code countryCode,unlocode from port where country_code = #{countryCode} order by name"
+        "select id,name,lon,lat,country,country_code countryCode,unlocode from port where country_code = #{countryCode} and unlocode is not null order by name"
 	})
 	public List<Port> queryPortByCountryCode(String countryCode);
 	
